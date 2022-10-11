@@ -43,11 +43,13 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
 ![Screenshot of the broken frontend](img/frontend-broken.png)
 
 ## Iterate on the service
-### Login and select the Azure subscription
+### Configure GitHub Codespaces
 - Open the [service](https://github.com/sabbour/contoso-names-service/) repository with GitHub Codespaces. This will fork the repository under your profile.
 ![Create codespace](img/frontend-createcodespace.png)
 GitHub is going to build the codespace and in a few minutes you will be able to access it.
 ![Launching a codespace](img/launching-codespace.png)
+
+### Login and select the Azure subscription
 
 - Install the latest version of the [AKS Developer Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.aks-devx-tools), if it isn't already there.
 
