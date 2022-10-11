@@ -1,6 +1,0 @@
-[submodule "contoso-topics-frontend"]
-	path = contoso-topics-frontend
-	url = https://github.com/sabbour/contoso-topics-frontend
-[submodule "contoso-topics-service"]
-	path = contoso-topics-service
-	url = https://github.com/sabbour/contoso-topics-service
