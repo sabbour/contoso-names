@@ -9,17 +9,20 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
 ## Infrastructure setup
 - Launch the [Azure Cloud Shell](https://shell.azure.com) and login with your Azure subscription.
 - Clone this repository
+
     ```
     git clone https://github.com/sabbour/contoso-names.git
     ```
+
 - Change into the `contoso-names` directory and run `setup.sh` while providing the required parameters. **Note:** Running this script will provision Azure resources that might incur billing.
+
     ```
     cd contoso-names
     chmod +x setup.sh
     ./setup.sh
     ```
     
-    **Note: ** This will take a few minutes to complete and will provision an Azure Kubernetes Service (AKS) cluster with the recommended add-ons enabled, an Azure Container Registry, an Azure Key Vault with a self-signed certificate, an Azure DNS Zone. The script will also download the cluster's credentials into the cloud shell.
+    This will take a few minutes to complete and will provision an Azure Kubernetes Service (AKS) cluster with the recommended add-ons enabled, an Azure Container Registry, an Azure Key Vault with a self-signed certificate, an Azure DNS Zone. The script will also download the cluster's credentials into the cloud shell.
 
 ## Deploy the frontend
 - Launch the [Azure Cloud Shell](https://shell.azure.com) and login with your Azure subscription.
