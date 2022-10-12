@@ -162,13 +162,23 @@ Provide the following inputs to the command:
 - **Service to redirect:** `contoso-names-service`.
 - **Local port:** 8080
 - **Launch configuration:**  Choose the `.NET Core Launch (web)` configuration
-- **Isolation:** Choose **No** to not isolate the traffic of your local version of the service from other developers on the cluster.
+- **Isolation:** Choose **Yes** to isolate the traffic of your local version of the service from other developers on the cluster.
 
 The extension will create a new launch configuration called **.NET Core Launch (web) with Kubernetes**. Make sure to switch to that configuration.
 
 ![Select the Bridge to Kubernetes launch configuration](img/bridge-launch-config.png)
 
-Place a breakpoint in **Program.cs** and hit `F5` to run the service in the codespace with the Bridge to Kubernetes debug launch configuration. Refresh the frontend app and you should see your breakpoint being hit.
+Launch the command palette again and run the `Bridge to Kubernetes: Open Menu` command or click on the **Kubernetes: contoso-names** tab. Once the command is up, click on **Connect to the cluster** which will retrieve the services and ingresses available on your cluster so that you can start debugging.
+
+![Bridge to Kubernetes breakpoint hit](img/bridge-connect.png)
+
+After the connection succeeds, launch the same command again and you should find a new option **Go to contoso-names-frontend isolated** show up. Click that and it will launch a browser with the isolation tag in the URL. This will allow the Bridge to Kubernetes routing manager on AKS to only route traffic to this hostname down to your code running in GitHub Codespaces.
+
+![Bridge to Kubernetes breakpoint hit](img/bridge-connected.png)
+
+Place a breakpoint in **Program.cs** (line 31) and hit `F5` to run the service in the codespace with the Bridge to Kubernetes debug launch configuration. 
+
+Refresh the frontend app and you should see your breakpoint being hit.
 
 ![Bridge to Kubernetes breakpoint hit](img/bridge-breakpoint.png)
 
