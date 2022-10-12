@@ -208,20 +208,24 @@ Select the Dockerfile to use as well as the Azure Container Registy name and ima
 
 Select the Kubernetes manifest files to deploy and select the **contoso-names** namespace as the target Kubernetes namespace.
 
-![Select Kubernetes anifest files](img/automated-deployments4.png)
+![Select Kubernetes manifest files](img/automated-deployments4.png)
 
-Create the deployment which will setup the Azure Active Directory and OpenId Connect authorization required for GitHub to be able to authenticate to your AKS cluster. This will also create a pull request to include the generated GitHub Actions workflow file into the repository.
+This will now setup the Azure Active Directory and OpenId Connect authorization required for GitHub to be able to authenticate to your AKS cluster. This will also create a pull request to include the generated GitHub Actions workflow file into the repository.
 
-![Select Kubernetes anifest files](img/automated-deployments5.png)
+![Create the automated deployment](img/automated-deployments5.png)
 
 Click on **View pull request** to view the generated workflow on GitHub and approve the pull request.
 
 
-![Select Kubernetes anifest files](img/automated-deployments-view-pr.png)
+![View pull request](img/automated-deployments-view-pr.png)
 
 Merge the pull request and look at the running pipeline. In a few minutes, the pipeline will run and a new image will be built and deployed to your cluster.
 
-![Select Kubernetes anifest files](img/automated-deployments-pipeline.png)
+![Merge pull request  and view pipeline](img/automated-deployments-pipeline.png)
+
+You will also be able to view details about the deployed workloads, including viewing live logs for pods in the portal.
+
+![View workloads](img/workloads.png)
 
 
 ## Configure Web Application Routing on the frontend
