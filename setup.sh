@@ -106,7 +106,6 @@ az aks create -n ${CLUSTER_NAME} -g ${CLUSTER_RG} --node-count 3 --generate-ssh-
 --enable-managed-identity \
 --enable-msi-auth-for-monitoring \
 --enable-secret-rotation \
---enable-keda \
 --enable-cluster-autoscaler \
 --min-count 3 \
 --max-count 6 \
@@ -145,15 +144,6 @@ az aks addon update -n ${CLUSTER_NAME} -g ${CLUSTER_RG} \
 # Retrieve AKS cluster credentials
 echo "Retrieving the Azure Kubernetes Service cluster credentials"
 az aks get-credentials -n ${CLUSTER_NAME} -g ${CLUSTER_RG}
-
-# Add the Keda Core Helm repo
-echo "Adding the kedacore Helm repo"
-helm repo add kedacore https://kedacore.github.io/charts
-helm repo update
-
-# Install the KEDA HTTP Add-on into kube-system
-echo "Installing the KEDA HTTP add-on into kube-system"
-helm install http-add-on kedacore/keda-add-ons-http --namespace kube-system
 
 echo "========================================================"
 echo "|            INFRASTRUCTURE SETUP COMPLETED            |"

@@ -256,6 +256,6 @@ For this part, let's go ahead and configure the frontend deployment to use Web A
 
     ![Ingress create results](img/ingresscreate-results.png)
 
-- Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests` to deploy the new ingress configuration.
+- Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests -n contoso-names` to deploy the new ingress configuration.
 
     ![Ingress manifests created](img/ingress-manifests-created.png)
