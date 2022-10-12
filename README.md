@@ -40,37 +40,70 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
     kubectl get service contoso-names-frontend --namespace=contoso-names -o jsonpath="{.status.loadBalancer.ingress[0].ip}"
     ```
 - Now that you have the service's public IP address, navigate to [http://[contoso-frontend IP address]]() in your browser. The user interface will load but you will receive an error because the backend service hasn't been deployed yet.
-![Screenshot of the broken frontend](img/frontend-broken.png)
+
+    ![Screenshot of the broken frontend](img/frontend-broken.png)
 
 ## Iterate on the service
 ### Configure GitHub Codespaces
 - Open the [service](https://github.com/sabbour/contoso-names-service/) repository with GitHub Codespaces. This will fork the repository under your profile.
-![Create codespace](img/frontend-createcodespace.png)
-GitHub is going to build the codespace and in a few minutes you will be able to access it.
-![Launching a codespace](img/launching-codespace.png)
+
+    ![Create codespace](img/frontend-createcodespace.png)
+
+    GitHub is going to build the codespace and in a few minutes you will be able to access it.
+
+    ![Launching a codespace](img/launching-codespace.png)
 
 ### Login and select the Azure subscription
 
 - Install the latest version of the [AKS Developer Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.aks-devx-tools), if it isn't already there.
 
+    ![AKS Developer Experience extension](img/codespaces-extension.png)
+
 - Launch the command palette (`Ctrl + Shift + P`) and run the `Azure: Sign in with Device Code` command to login to your Azure subscription.
-![Sign in with Device Code](img/azure-sign-in.png)
+
+    ![Sign in with Device Code](img/azure-sign-in.png)
 
 - If you have access to multiple tenants, select the one you'd like to use by running the `Azure: Select Tenant` command.
-![Select tenant](img/azure-select-tenant.png)
+
+    ![Select tenant](img/azure-select-tenant.png)
 
 - Run the `Azure: Select Subscriptions` command to select the Azure subscription you'd like to use.
-![Select subscription](img/azure-select-subs.png)
+
+    ![Select subscription](img/azure-select-subs.png)
 
 ### Launch the application in GitHub Codespaces
-- Hit `F5` to run the service in the codespace. This will build and launch the application in the codespace and tunnel the exposed endpoint back to your machine. You should now see the API endpoint.
+Hit `F5` to run the service in the codespace. This will build and launch the application in the codespace and tunnel the exposed endpoint back to your machine. You should now see the API endpoint.
+
 ![Screenshot of the Swagger API endpoint](img/service-swagger.png)
 
 ### Generate Dockerfile
-- Run the `Azure Developer: Draft a Dockerfile from source code` command.
+Run the `AKS Developer: Draft a Dockerfile from source code` command.
+
 ![Draft a Dockerfile from source code](img/draft-docker.png)
 
+Provide the following inputs to the command:
+- **Source code location:** Select the `/workspaces/contoso-names-service/src`.
+- **Programming language:** C#
+- **C# version:**  6.0
+- **Port:** 80
+
+This will generate an appropriate Dockerfile.
+
+![Draft a Dockerfile from source code](img/dockercreate-results.png)
+
 ### Build the container image
+
+To build the container image, you can either click the **Build container** button in the notification, or you can also run the `AKS Developer: Build a container with Azure Container Registry` command.
+
+Provide the following inputs to the command:
+- **Dockerfile location:** Select the `src\Dockerfile` file.
+- **Tag image as:** `contoso-names-service:{{.Run.ID}}`
+- **Registry provider:**  Connect to an Azure registry, then pick your Azure Container Registry from the list.
+- **Image base OS:** Select Linux
+
+This will run a Docker build using Azure Container Registry.
+
+![Docker build](img/dockerbuilding.png)
 
 ### Create a deployment and service
 
