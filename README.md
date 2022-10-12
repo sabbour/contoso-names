@@ -71,6 +71,10 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
 
     ![Select subscription](img/azure-select-subs.png)
 
+- Download the AKS cluster configuration on the Kubernetes extension page by clicking the Kubernetes icon on the left, then expand your Azure subscription to find your cluster. Right-click and select **Merge into Kubeconfig** to download the cluster credentials.
+
+    ![Merge the AKS cluster kubeconfig](img/merge-kubeconfig.png)
+
 ### Launch the application in GitHub Codespaces
 Hit `F5` to run the service in the codespace. This will build and launch the application in the codespace and tunnel the exposed endpoint back to your machine. You should now see the API endpoint.
 
@@ -82,7 +86,7 @@ Run the `AKS Developer: Draft a Dockerfile from source code` command.
 ![Draft a Dockerfile from source code](img/draft-docker.png)
 
 Provide the following inputs to the command:
-- **Source code location:** Select the `/workspaces/contoso-names-service/src`.
+- **Source code location:** Select the `/workspaces/contoso-names-service`
 - **Programming language:** C#
 - **C# version:**  6.0
 - **Port:** 80
@@ -96,16 +100,48 @@ This will generate an appropriate Dockerfile.
 To build the container image, you can either click the **Build container** button in the notification, or you can also run the `AKS Developer: Build a container with Azure Container Registry` command.
 
 Provide the following inputs to the command:
-- **Dockerfile location:** Select the `src\Dockerfile` file.
-- **Tag image as:** `contoso-names-service:{{.Run.ID}}`
-- **Registry provider:**  Connect to an Azure registry, then pick your Azure Container Registry from the list.
-- **Image base OS:** Select Linux
+- **Dockerfile location:** Select the `Dockerfile` file.
+- **Tag image as:** `contoso-names-service:latest`
+- **Registry provider:**  Connect to an Azure registry, then pick your Azure Container Registry from the list
+- **Image base OS:** Linux
 
 This will run a Docker build using Azure Container Registry.
 
 ![Docker build](img/dockerbuilding.png)
 
 ### Create a deployment and service
+
+To deploy to Kubernetes, you need to have Kubernetes manifests for the deployment and service. You can either click the **Draft Kubernetes Deployment and Service** button in the notification, or you can also run the `AKS Developer: Draft a Kubernetes Deployment and Service` command.
+
+Provide the following inputs to the command:
+- **Output directory:** `/workspaces/contoso-names-service/manifests`.
+- **Format:** Manifests
+- **Kubernetes namespace:**  Create a new namespace `contoso-names` and select it
+- **Application name:** `contoso-names-service`
+- **Image type:** Azure Container Registry
+- **Resource group:** Select the resource group of the Azure Container Registry
+- **Container registry:** Select the registry that you used to build the image
+- **Repository:** Type in the image name `contoso-names-service`
+- **Tag:** Type in `latest`
+- **Port:** 80
+
+This will generate **deployment.yaml** and **service.yaml** files.
+
+![Generated deployment and service](img/deployment-service.png)
+
+Edit the **service.yaml** file to change the load balancer type to `ClusterIP` since the frontend app will be calling this API over the internal DNS name.
+
+![Change load balancer type to ClusterIP](img/clusterip.png)
+
+To deploy to Kubernetes, you can either click the **Deploy** button in the notification, or you can also run the `kubectl apply -f ./manifests` in the terminal.
+
+![Run kubectl apply](img/kubectlapply.png)
+
+### Review that the frontend app is now working
+
+Using the frontend app's service IP, open that in the browser again and you should see the app is now working.
+
+![Run kubectl apply](img/namesapp.png)
 
 ### Debug with Bridge to Kubernetes
 
