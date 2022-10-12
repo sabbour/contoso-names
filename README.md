@@ -140,13 +140,16 @@ To deploy to Kubernetes, you can either click the **Deploy** button in the notif
 
 ![Run kubectl apply](img/kubectlapply.png)
 
-### Review that the frontend app is now working
+### Review that the frontend app is  working (and buggy)
 
-Using the frontend app's service IP, open that in the browser again and you should see the app is now working.
+Using the frontend app's service IP, open that in the browser again and you should see the app is now working. But there is a bug. It seems that there is some repetition in the generated names.
 
-![Run kubectl apply](img/namesapp.png)
+![Run kubectl apply](img/namesapp-bug.png)
 
 ### Debug with Bridge to Kubernetes
+
+To debug where is this repetition in the generated name is coming from, you will use Bridge to Kubernetes to attach a debugger to the deployed application on the Kubernetes cluster. Note that you should only do this on a non-production deployment. Since this is the team's AKS development cluster, you should be ok here.
+
 
 ### Create a GitHub Actions workflow
 
