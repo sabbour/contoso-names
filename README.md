@@ -168,17 +168,15 @@ The extension will create a new launch configuration called **.NET Core Launch (
 
 ![Select the Bridge to Kubernetes launch configuration](img/bridge-launch-config.png)
 
-Launch the command palette again and run the `Bridge to Kubernetes: Open Menu` command or click on the **Kubernetes: contoso-names** tab. Once the command is up, click on **Connect to the cluster** which will retrieve the services and ingresses available on your cluster so that you can start debugging.
+Place a breakpoint in **Program.cs** (line 31) and hit `F5` to run the service in the codespace with the Bridge to Kubernetes debug launch configuration. 
 
-![Bridge to Kubernetes breakpoint hit](img/bridge-connect.png)
+![Place a breakpoint](img/bridge-putbreakpoint.png)
 
-After the connection succeeds, launch the same command again and you should find a new option **Go to contoso-names-frontend isolated** show up. Click that and it will launch a browser with the isolation tag in the URL. This will allow the Bridge to Kubernetes routing manager on AKS to only route traffic to this hostname down to your code running in GitHub Codespaces.
+Run the `Bridge to Kubernetes: Open Menu` command you should find a new option **Go to contoso-names-frontend isolated** show up. Click that and it will launch a browser with the isolation tag in the URL. This will allow the Bridge to Kubernetes routing manager on AKS to only route traffic to this hostname down to your code running in GitHub Codespaces.
 
 ![Bridge to Kubernetes breakpoint hit](img/bridge-connected.png)
 
-Place a breakpoint in **Program.cs** (line 31) and hit `F5` to run the service in the codespace with the Bridge to Kubernetes debug launch configuration. 
-
-Refresh the frontend app and you should see your breakpoint being hit.
+Test the application, you should see the debugger attach and the breakpoint you placed getting hit.
 
 ![Bridge to Kubernetes breakpoint hit](img/bridge-breakpoint.png)
 
@@ -193,5 +191,9 @@ You hit `F5` one more time to run your code that you just edited in GitHub Codes
 You are now ready to commit this bug fix.
 
 ### Create a GitHub Actions workflow
+
+While it is fun to keep iterating on code, it is time to actually commit this bug fix, rebuild the container, and deploy a new version so that the rest of your team mates see the update.
+
+Instead of doing all this manually, you are going to use the extension to generate the GitHub Actions workflow. **Note:** We're going to assume that your team has already configured [GitHub Actions to connect to Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux).
 
 ## Configure Web Application Routing on the frontend
