@@ -192,8 +192,36 @@ You are now ready to commit this bug fix.
 
 ### Create a GitHub Actions workflow
 
-While it is fun to keep iterating on code, it is time to actually commit this bug fix, rebuild the container, and deploy a new version so that the rest of your team mates see the update.
+While it is fun to keep iterating on code, it is time to actually commit this bug fix, rebuild the container, and deploy a new version so that the rest of your team mates see the update.Instead of doing all this manually, you are going to use the extension to generate the GitHub Actions workflow. 
 
-Instead of doing all this manually, you are going to use the extension to generate the GitHub Actions workflow. **Note:** We're going to assume that your team has already configured [GitHub Actions to connect to Azure](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux).
+Open the [Azure portal](https://portal.azure.com), search for your AKS cluster, and open the **Automated deployments** blade.
+
+![Navigate to automated deployments](img/automated-deployments.png)
+
+Select the GitHub repository with your **contoso-names-service** code.
+
+![Select GitHub repository](img/automated-deployments2.png)
+
+Select the Dockerfile to use as well as the Azure Container Registy name and image.
+
+![Select Dockerfile and Azure Container Registry details](img/automated-deployments3.png)
+
+Select the Kubernetes manifest files to deploy and select the **contoso-names** namespace as the target Kubernetes namespace.
+
+![Select Kubernetes anifest files](img/automated-deployments4.png)
+
+Create the deployment which will setup the Azure Active Directory and OpenId Connect authorization required for GitHub to be able to authenticate to your AKS cluster. This will also create a pull request to include the generated GitHub Actions workflow file into the repository.
+
+![Select Kubernetes anifest files](img/automated-deployments5.png)
+
+Click on **View pull request** to view the generated workflow on GitHub and approve the pull request.
+
+
+![Select Kubernetes anifest files](img/automated-deployments-view-pr.png)
+
+Merge the pull request and look at the running pipeline. In a few minutes, the pipeline will run and a new image will be built and deployed to your cluster.
+
+![Select Kubernetes anifest files](img/automated-deployments-pipeline.png)
+
 
 ## Configure Web Application Routing on the frontend
