@@ -227,5 +227,35 @@ You will also be able to view details about the deployed workloads, including vi
 
 ![View workloads](img/workloads.png)
 
-
 ## Configure Web Application Routing on the frontend
+
+You'll notice that you've been accessing the frontend over the its Kubernetes service's public IP address. Instead, you want to access this via a hostname and with an SSL/TLS certificate. Azure Kubernetes Service (AKS) provides a Web Application Routing add-on that uses nginx, integrated with Azure Key Vault for certificate storage, Azure DNS for DNS management, and Open Service Mesh (OSM) to secure intra cluster communication.
+
+For this part, let's go ahead and configure the frontend deployment to use Web Application Routing.
+
+- Open the [frontend](https://github.com/sabbour/contoso-names-frontend/) repository with GitHub Codespaces. This will fork the repository under your profile.
+
+- As you did with the service repository previously, you'll need to install the AKS Developer Experience extension, sign-in with your Azure subscription, select the proper tenant, and download your Kubernetes cluster configuration.
+
+- Run the `AKS Developer: Draft a Kubernetes Ingress` command.
+    
+    ![Draft a Dockerfile from source code](img/draft-ingress.png)
+
+    Provide the following inputs to the command:
+    - **Output directory:** `/workspaces/contoso-names-frontend/manifests`
+    - **Port:** 80
+    - **Kubernetes namespace:**  Select `contoso-names`
+    - **Service:** `contoso-names-frontend`
+    - **Hostname:** This will be the public hostname the ingress and SSL certificate are configured with. Use the same name you used when creating the cluster.
+    - **mTLS:** Choose mutual TLS using Open Service Mesh
+    - **Resource group:** Select the resource group of the Azure Key Vault
+    - **Key Vault:** Select the Azure Key Vault holding your generated certificate
+    - **Certificate:** Choose the certificate that maps to the hostname
+
+    This will generate **ingress.yaml** and **ingress-backend.yaml** files.
+
+    ![Ingress create results](img/ingresscreate-results.png)
+
+- Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests` to deploy the new ingress configuration.
+
+    ![Ingress manifests created](img/ingress-manifests-created.png)
