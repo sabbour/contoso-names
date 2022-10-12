@@ -150,6 +150,37 @@ Using the frontend app's service IP, open that in the browser again and you shou
 
 To debug where is this repetition in the generated name is coming from, you will use Bridge to Kubernetes to attach a debugger to the deployed application on the Kubernetes cluster. Note that you should only do this on a non-production deployment. Since this is the team's AKS development cluster, you should be ok here.
 
+To use the Bridge to Kubernetes extension, you need to switch your Kubernetes cluster context to use the namespace which contains the service you want to debug. Click on **default** in the bottom tabs and type in `contoso-names` in the command palette that will popup.
+
+![Configure namespace](img/bridge-configure-namespace.png)
+
+Launch the command palette again and run the `Bridge to Kubernetes: Configure` command.
+
+![Bridge to Kubernetes configure command](img/bridge-configure-command.png)
+
+Provide the following inputs to the command:
+- **Service to redirect:** `contoso-names-service`.
+- **Local port:** 8080
+- **Launch configuration:**  Choose the `.NET Core Launch (web)` configuration
+- **Isolation:** Choose **No** to not isolate the traffic of your local version of the service from other developers on the cluster.
+
+The extension will create a new launch configuration called **.NET Core Launch (web) with Kubernetes**. Make sure to switch to that configuration.
+
+![Select the Bridge to Kubernetes launch configuration](img/bridge-launch-config.png)
+
+Place a breakpoint in **Program.cs** and hit `F5` to run the service in the codespace with the Bridge to Kubernetes debug launch configuration. Refresh the frontend app and you should see your breakpoint being hit.
+
+![Bridge to Kubernetes breakpoint hit](img/bridge-breakpoint.png)
+
+You realize that you are referring to the *adjective* twice in the returned string. You stop the debugger and quickly fix that bug by referring to the *noun* the second time.
+
+![Codefix](img/bridge-codefix.png)
+
+You hit `F5` one more time to run your code that you just edited in GitHub Codespaces in the AKS cluster. Note that you didn't have to rebuild a Docker container, push it to a registry, or mess around with YAML files. You quickly see that your change fixes the problem.
+
+![Working application](img/namesapp-working.png)
+
+You are now ready to commit this bug fix.
 
 ### Create a GitHub Actions workflow
 
