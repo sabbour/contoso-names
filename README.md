@@ -181,7 +181,7 @@ Edit the **service.yaml** file to change the load balancer type to `ClusterIP` s
 
 ![Change load balancer type to ClusterIP](img/clusterip.png)
 
-To deploy to Kubernetes, you can either click the **Deploy** button in the notification, or you can also run the `kubectl apply -f ./manifests` in the terminal.
+To deploy to Kubernetes, you can either click the **Deploy** button in the notification, or you can also run the `kubectl apply -f ./manifests  --namespace=contoso-names` in the terminal.
 
 ![Run kubectl apply](img/kubectlapply.png)
 
@@ -301,6 +301,6 @@ For this part, let's go ahead and configure the frontend deployment to use Web A
 
     ![Ingress create results](img/ingresscreate-results.png)
 
-- Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests -n contoso-names` to deploy the new ingress configuration.
+- Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests --namespace=contoso-names` to deploy the new ingress configuration.
 
     ![Ingress manifests created](img/ingress-manifests-created.png)
