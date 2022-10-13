@@ -14,9 +14,9 @@ read CLUSTER_NAME
 CLUSTER_NAME="${CLUSTER_NAME:=${PREFIX}${RANDOMSTRING}}"
 echo $CLUSTER_NAME
 
-echo -e "AKS resource group (default: ${PREFIX}-${RANDOMSTRING}-rg): \c"
+echo -e "AKS resource group (default: ${PREFIX}${RANDOMSTRING}-rg): \c"
 read CLUSTER_RG
-CLUSTER_RG="${CLUSTER_RG:=${PREFIX}-${RANDOMSTRING}-rg}"
+CLUSTER_RG="${CLUSTER_RG:=${PREFIX}${RANDOMSTRING}-rg}"
 echo $CLUSTER_RG
 
 echo -e "Azure Container Registry name (default: ${PREFIX}${RANDOMSTRING}): \c"
