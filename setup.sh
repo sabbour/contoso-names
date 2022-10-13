@@ -156,4 +156,10 @@ echo ""
 echo "Make sure that your Azure DNS zone has been updated to properly resolve ${AZUREDNS_NAME}"
 echo ""
 echo "Here are the DNS NS records you should set in your parent DNS zone:"
-az network dns zone show --name ${AZUREDNS_NAME} --resource-group ${AZUREDNS_RG} --query nameServers
+az network dns zone show --name ${AZUREDNS_NAME} --resource-group ${AZUREDNS_RG} --query nameServers  -o tsv
+echo "========================================================"
+echo "|               KEYVAULT CERFIFICATE                   |"
+echo "========================================================"
+echo ""
+echo "Use the following certificate URL when configuring the ingress"
+az keyvault certificate show --vault-name ${KV_NAME} -n ${CERTIFICATE_NAME} --query "id" --output tsv
