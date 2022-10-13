@@ -39,9 +39,9 @@ read KV_RG
 KV_RG="${KV_RG:=${CLUSTER_RG}}"
 echo $KV_RG
 
-echo -e "Azure DNS name (default: *.${RANDOMSTRING}.contoso.com): \c"
+echo -e "Azure DNS name (default: ${RANDOMSTRING}.contoso.com): \c"
 read AZUREDNS_NAME
-AZUREDNS_NAME="${AZUREDNS_NAME:=*.${RANDOMSTRING}.contoso.com}"
+AZUREDNS_NAME="${AZUREDNS_NAME:=${RANDOMSTRING}.contoso.com}"
 echo $AZUREDNS_NAME
 
 echo -e "Azure DNS resource group (default: ${CLUSTER_RG}): \c"
