@@ -156,4 +156,4 @@ echo ""
 echo "Make sure that your Azure DNS zone has been updated to properly resolve ${AZUREDNS_NAME}"
 echo ""
 echo "Here are the DNS NS records you should set in your parent DNS zone:"
-az network dns zone show --name ${AZUREDNS_NAME} --resource-group {$AZUREDNS_RG} --query nameServers
+az network dns zone show --name ${AZUREDNS_NAME} --resource-group ${AZUREDNS_RG} --query nameServers
