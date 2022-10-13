@@ -35,10 +35,10 @@
       "keyAgreement",
       "keyCertSign"
     ],
-    "subject": "C=US, ST=WA, L=Redmond, CN=*.DOMAIN",
+    "subject": "C=US, ST=WA, L=Redmond, CN=*.*.DOMAIN",
     "subjectAlternativeNames": {
       "dnsNames": [
-        "*.DOMAIN"
+        "*.*.DOMAIN"
       ],
       "upns": []
     },

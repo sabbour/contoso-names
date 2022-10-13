@@ -26,7 +26,7 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
 
 ## Configure DNS
 
-For the last part with Web App Routing to function correctly, you need to provide a domain that is managed by Azure DNS. The script will create an Azure DNS zone and a wildcard certificate for `*.domain.tld`.
+For the last part with Web App Routing to function correctly, you need to provide a domain that is managed by Azure DNS. The script will create an Azure DNS zone and a wildcard certificate for `*.*.domain.tld`.
 
 You should make a note of the nameservers that were assigned to your new zone by running:
 
