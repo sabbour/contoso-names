@@ -39,12 +39,12 @@ read KV_RG
 KV_RG="${KV_RG:=${CLUSTER_RG}}"
 echo $KV_RG
 
-echo -e "Azure DNS name (default: ${RANDOMSTRING}.contoso.com): \c"
+echo -e "Root Azure DNS name (default: ${RANDOMSTRING}.contoso.com): \c"
 read AZUREDNS_NAME
 AZUREDNS_NAME="${AZUREDNS_NAME:=${RANDOMSTRING}.contoso.com}"
 echo $AZUREDNS_NAME
 
-echo -e "Azure DNS resource group (default: ${CLUSTER_RG}): \c"
+echo -e "Root Azure DNS resource group (default: ${CLUSTER_RG}): \c"
 read AZUREDNS_RG
 AZUREDNS_RG="${AZUREDNS_RG:=${CLUSTER_RG}}"
 echo $AZUREDNS_RG
@@ -81,9 +81,21 @@ az provider register --namespace Microsoft.ContainerService
 echo "Creating resource group ${CLUSTER_RG} in ${LOCATION}"
 az group create -n ${CLUSTER_RG} -l ${LOCATION}
 
-# Create Azure DNS Zone
-echo "Creating Azure DNS zone ${AZUREDNS_NAME}"
-az network dns zone create -n ${AZUREDNS_NAME} -g ${AZUREDNS_RG}
+# Checking if Azure DNS Zone exists
+echo "Checking if the root Azure DNS Zone ${AZUREDNS_NAME} exists in resource group ${AZUREDNS_RG}"
+AZUREDNS_NAME_CHECK=$(az network dns zone list -o tsv --query "[?name=='${AZUREDNS_NAME}'].name")
+if [[ ! -z ${AZUREDNS_NAME_CHECK}  ]];
+then
+    echo "..DNS Zone exists, skipping create"
+else
+    echo "..DNS Zone does not exist"
+    # Create Azure DNS Zone
+    echo "Creating Azure DNS zone ${AZUREDNS_NAME}"
+    az network dns zone create -n ${AZUREDNS_NAME} -g ${AZUREDNS_RG}        
+fi
+
+
+echo "Retrieving the resource ID for the Azure DNS zone"
 AZUREDNS_RESOURCEID=$(az network dns zone show -n ${AZUREDNS_NAME} -g ${AZUREDNS_RG} --query id -o tsv)
 
 # Create an Azure Key Vault
