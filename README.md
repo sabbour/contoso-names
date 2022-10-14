@@ -1,10 +1,10 @@
-# Contoso project name generator for AKS developer experience demo
+# Contoso band name generator for AKS developer experience demo
 
 This project consists of a [frontend](https://github.com/sabbour/contoso-names-frontend/) written in Node.JS and a [service](https://github.com/sabbour/contoso-names-service) written in C# on top of .NET 6.
 
 ## Prerequisites
 - Azure subscription
-- Domain name to manage using Azure DNS
+- Domain name (for web app routing)
 
 ## Infrastructure setup
 - Launch the [Azure Cloud Shell](https://shell.azure.com) and login with your Azure subscription.
