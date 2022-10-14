@@ -264,12 +264,12 @@ For this part, let's go ahead and configure the frontend deployment to use Web A
     - **Kubernetes namespace:**  Select `contoso-names`
     - **Service:** `contoso-names-frontend`
     - **Hostname:** This will be the public hostname the ingress and SSL certificate are configured with. Use the same name you used when creating the cluster.
-    - **mTLS:** Choose mutual TLS using Open Service Mesh
+    - **Service mesh:** For simplicity, choose *No Open Service Mesh*
     - **Resource group:** Select the resource group of the Azure Key Vault
     - **Key Vault:** Select the Azure Key Vault holding your generated certificate
-    - **Certificate:** Choose the certificate that maps to the hostname
+    - **Certificate:** Paste the Key Vault certificate URL that was displayed at the end of the setup script
 
-    This will generate **ingress.yaml** and **ingress-backend.yaml** files.
+    This will generate an **ingress.yaml** file.
 
     ![Ingress create results](img/ingresscreate-results.png)
 

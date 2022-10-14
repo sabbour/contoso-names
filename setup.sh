@@ -111,12 +111,6 @@ az aks create -n ${CLUSTER_NAME} -g ${CLUSTER_RG} --node-count 3 --generate-ssh-
 --node-vm-size Standard_DS4_v2 \
 --attach-acr ${ACR_NAME}
 
-# Update the Web App Routing add-on to use Azure DNS
-echo "Updating the Web App Routing add-on to use Azure DNS"
-az aks addon update -n ${CLUSTER_NAME} -g ${CLUSTER_RG} \
---addon web_application_routing \
---dns-zone-resource-id=${AZUREDNS_RESOURCEID}
-
 # Retrieve the user managed identity object ID for the Web App Routing add-on
 echo "Retrieving the managed identity for the Web Application Routing add-on"
 CLUSTER_RESOURCE_ID=$(az aks show -n ${CLUSTER_NAME} -g ${CLUSTER_RG} --query id -o tsv)
