@@ -9,35 +9,40 @@ read LOCATION
 LOCATION="${LOCATION:=eastus}"
 echo $LOCATION
 
-echo -e "AKS cluster name (default: ${PREFIX}${RANDOMSTRING}): \c"
-read CLUSTER_NAME
-CLUSTER_NAME="${CLUSTER_NAME:=${PREFIX}${RANDOMSTRING}}"
-echo $CLUSTER_NAME
-
-echo -e "AKS resource group (default: ${PREFIX}${RANDOMSTRING}-rg): \c"
+echo -e "Resource group (default: ${PREFIX}${RANDOMSTRING}-rg): \c"
 read CLUSTER_RG
 CLUSTER_RG="${CLUSTER_RG:=${PREFIX}${RANDOMSTRING}-rg}"
 echo $CLUSTER_RG
 
-echo -e "Azure Container Registry name (default: ${PREFIX}${RANDOMSTRING}): \c"
-read ACR_NAME
-ACR_NAME="${ACR_NAME:=${PREFIX}${RANDOMSTRING}}"
-echo $ACR_NAME
+#echo -e "AKS cluster name (default: ${PREFIX}${RANDOMSTRING}): \c"
+#read CLUSTER_NAME
+#CLUSTER_NAME="${CLUSTER_NAME:=${PREFIX}${RANDOMSTRING}}"
+#echo $CLUSTER_NAME
+CLUSTER_NAME=${PREFIX}${RANDOMSTRING}
 
-echo -e "Azure Container Registry resource group (default: ${CLUSTER_RG}): \c"
-read ACR_RG
-ACR_RG="${ACR_RG:=${CLUSTER_RG}}"
-echo $ACR_RG
+#echo -e "Azure Container Registry name (default: ${PREFIX}${RANDOMSTRING}): \c"
+#read ACR_NAME
+#ACR_NAME="${ACR_NAME:=${PREFIX}${RANDOMSTRING}}"
+#echo $ACR_NAME
+ACR_NAME=${PREFIX}${RANDOMSTRING}
 
-echo -e "Azure Key Vault name (default: ${PREFIX}${RANDOMSTRING}): \c"
-read KV_NAME
-KV_NAME="${KV_NAME:=${PREFIX}${RANDOMSTRING}}"
-echo $KV_NAME
+#echo -e "Azure Container Registry resource group (default: ${CLUSTER_RG}): \c"
+#read ACR_RG
+#ACR_RG="${ACR_RG:=${CLUSTER_RG}}"
+#echo $ACR_RG
+ACR_RG=${CLUSTER_RG}
 
-echo -e "Azure Key Vault resource group (default: ${CLUSTER_RG}): \c"
-read KV_RG
-KV_RG="${KV_RG:=${CLUSTER_RG}}"
-echo $KV_RG
+#echo -e "Azure Key Vault name (default: ${PREFIX}${RANDOMSTRING}): \c"
+#read KV_NAME
+#KV_NAME="${KV_NAME:=${PREFIX}${RANDOMSTRING}}"
+#echo $KV_NAME
+KV_NAME=${PREFIX}${RANDOMSTRING}
+
+#echo -e "Azure Key Vault resource group (default: ${CLUSTER_RG}): \c"
+#read KV_RG
+#KV_RG="${KV_RG:=${CLUSTER_RG}}"
+#echo $KV_RG
+KV_RG=${CLUSTER_RG}
 
 echo -e "Root Azure DNS name (default: ${RANDOMSTRING}.contoso.com): \c"
 read AZUREDNS_NAME
@@ -48,6 +53,11 @@ echo -e "Root Azure DNS resource group (default: ${CLUSTER_RG}): \c"
 read AZUREDNS_RG
 AZUREDNS_RG="${AZUREDNS_RG:=${CLUSTER_RG}}"
 echo $AZUREDNS_RG
+
+echo -e "Application subdomain name (default: namesapp): \c"
+read SUBDOMAIN
+SUBDOMAIN="${SUBDOMAIN:=namesapp}"
+echo $SUBDOMAIN
 
 CERTIFICATE_NAME=${RANDOMSTRING}-wild
 AZURE_TENANT_ID=$(az account show --query tenantId -o tsv)
@@ -103,8 +113,8 @@ echo "Creating Azure Key Vault ${KV_NAME}"
 az keyvault create -n ${KV_NAME} -g ${KV_RG}
 
 # Create a self signed certificate on Azure Key Vault using the policy template
-echo "Creating a self-signed certificate on the Key Vault"
-sed "s/DOMAIN/${AZUREDNS_NAME}/" kv_cert_policy_template.json > generated-cert-policies/${CERTIFICATE_NAME}_kv_policy.json
+echo "Creating a self-signed certificate on the Key Vault for ${SUBDOMAIN}.${AZUREDNS_NAME} and *.${SUBDOMAIN}.${AZUREDNS_NAME}"
+sed "s/DOMAIN/${SUBDOMAIN}.${AZUREDNS_NAME}/" kv_cert_policy_template.json > generated-cert-policies/${CERTIFICATE_NAME}_kv_policy.json
 az keyvault certificate create --vault-name ${KV_NAME} -n ${CERTIFICATE_NAME} -p @generated-cert-policies/${CERTIFICATE_NAME}_kv_policy.json
 
 # Create Azure Container Registry
@@ -165,9 +175,10 @@ echo "========================================================"
 echo "|                GO UPDATE YOUR DNS ZONE                |"
 echo "========================================================"
 echo ""
-echo "Make sure that your Azure DNS zone has been updated to properly resolve ${AZUREDNS_NAME}"
+echo "Make sure that your DNS has been updated to properly resolve ${AZUREDNS_NAME}"
+echo "Use ${SUBDOMAIN}.${AZUREDNS_NAME} when configuring the ingress hostname."
 echo ""
-echo "Here are the DNS NS records you should set in your parent DNS zone:"
+echo "Here are the DNS NS records you should set in your parent DNS zone or hosts file:"
 az network dns zone show --name ${AZUREDNS_NAME} --resource-group ${AZUREDNS_RG} --query nameServers  -o tsv
 echo "========================================================"
 echo "|               KEYVAULT CERFIFICATE                   |"

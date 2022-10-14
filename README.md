@@ -24,50 +24,22 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
     
     This will take a few minutes to complete and will provision an Azure Kubernetes Service (AKS) cluster with the recommended add-ons enabled, an Azure Container Registry, an Azure Key Vault with a self-signed certificate, an Azure DNS Zone. The script will also download the cluster's credentials into the cloud shell.
 
+    Provide the following inputs to the command:
+    - **Location (default: eastus):** Azure region to deploy the resources.
+    - **Resource group (default: <random>-rg):**  Resource group name to host the resources
+    - **Root Azure DNS name (default: <random>.contoso.com):** Root Azure DNS zone. Will be created if it doesn't exist.
+    - **Root Azure DNS resource group (default: <random>-rg):**  Existing Root Azure DNS zone resource group. If the Root Azure DNS zone doesn't exist, it will be created in the main resource group.
+    - **Application subdomain name (default namesapp):** Subdomain for this application.
+
 ## Configure DNS
 
-For the last part with Web App Routing to function correctly, you need to provide a domain that is managed by Azure DNS. The script will create an Azure DNS zone and a certificate for `domain.tld` and `*.domain.tld`.
+For the last part with Web App Routing to function correctly, you need to provide a domain that is managed by Azure DNS. The script will create an Azure DNS zone and a certificate for `domain.tld` and `*.domain.tld`. External-DNS on Kubernetes will create and manage any additional subdomains on that zone.
 
-You should make a note of the nameservers that were assigned to your new zone by running:
+You should make a note of the nameservers that were assigned to your new zone by running the command below and updating your parent zone's nameservers.
 
 ```
 az network dns zone show --name <your domain> --resourcegroup <resource group> --query nameServers
 ```
-
-Tell the parent zone where to find the DNS records for this zone by adding the corresponding NS records there. If the parent zone is running on Azure, you can do so by running the following command for each of the child name servers:
-
-```
-az network dns record-set ns add-record \
---zone-name <parent zone domain> \
---resource-group <parent zone resource group> \
---record-set-name <child zone> \
---nsdname <child zone nameserver>
-```
-
-If your parent zone is not on Azure DNS, you'll need to update the nameservers where you host the parent zone's DNS. 
-
-For example, if domain I chose is **apps.azure.sabbour.me** and retrieving its nameservers returns the following:
-
-```
-az network dns zone show --name apps.azure.sabbour.me --resource-group contoso-s2nsm --query nameServers
-[
-  "ns1-04.azure-dns.com.",
-  "ns2-04.azure-dns.net.",
-  "ns3-04.azure-dns.org.",
-  "ns4-04.azure-dns.info."
-]
-```
-
-I will then need to run the following command once for each of these nameservers on my parent zone's (**azure.sabbour.me**) DNS.
-
-```
-az network dns record-set ns add-record \
---zone-name azure.sabbour.me \
---resource-group azure.sabbour.me-rg \
---record-set-name apps \
---nsdname ns1-04.azure-dns.com. # also for ns2-04.azure-dns.net, ns3-04.azure-dns.org, ns4-04.azure-dns.info
-```
-
 
 ## Deploy the frontend
 - Launch the [Azure Cloud Shell](https://shell.azure.com) and login with your Azure subscription.
