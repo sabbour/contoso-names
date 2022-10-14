@@ -205,7 +205,7 @@ You hit `F5` one more time to run your code that you just edited in GitHub Codes
 
 ![Working application](img/namesapp-working.png)
 
-You are now ready to commit this bug fix.
+Learn more about [how the magic behind Bridge to Kubernetes works](https://learn.microsoft.com/en-us/visualstudio/bridge/overview-bridge-to-kubernetes).
 
 ### Create a GitHub Actions workflow
 
@@ -275,4 +275,20 @@ For this part, let's go ahead and configure the frontend deployment to use Web A
 
 - Open a terminal (``Ctrl + ` ``) then run `kubectl apply -f ./manifests --namespace=contoso-names` to deploy the new ingress configuration.
 
-    ![Ingress manifests created](img/ingress-manifests-created.png)
+- In a few minutes, the [external-dns](https://github.com/kubernetes-sigs/external-dns) controller that was deployed with the Web Application Routing add-on will synchronize the requested ingress hostname with Azure DNS.
+
+    ![Azure DNS configured](img/azuredns.png)
+
+- You should now be able to access the application at the hostname you configured, for example at <https://namesapp.azure.sabbour.me> over the self-signed SSL certificate that was generated when you created the cluster. You can also upload your own SSL certificate into Azure Key Vault.
+
+    Additionlly, you can still debug through Bridge to Kubernetes in isolation mode by appending your isloation tag to the hostname, for exapmle at <https://vscode-dff0.namesapp.azure.sabbour.me>
+
+    ![Bridge to Kubernetes isolation mode still works with the ingress](img/bridge-with-ingress.png)
+
+## Clean up
+
+When you are done, you can delete the resource group that is holding the resources by running:
+
+```
+az group delete --name <resource group name>
+```
