@@ -63,6 +63,7 @@ echo "Making sure that the features are registered"
 az extension add --upgrade --name aks-preview
 az feature register --name AKS-KedaPreview --namespace Microsoft.ContainerService
 az provider register --namespace Microsoft.ContainerService
+az provider register --namespace Microsoft.DevHub
 
 # Create resource group
 echo "Creating resource group ${CLUSTER_RG} in ${LOCATION}"
