@@ -22,14 +22,14 @@ This project consists of a [frontend](https://github.com/sabbour/contoso-names-f
     ./setup.sh
     ```
     
-    This will take a few minutes to complete and will provision an Azure Kubernetes Service (AKS) cluster with the recommended add-ons enabled, an Azure Container Registry, an Azure Key Vault with a self-signed certificate, an Azure DNS Zone. The script will also download the cluster's credentials into the cloud shell.
-
     Provide the following inputs to the command:
     - **Location (default: eastus):** Azure region to deploy the resources.
-    - **Resource group (default: <random>-rg):**  Resource group name to host the resources
-    - **Root Azure DNS name (default: <random>.contoso.com):** Root Azure DNS zone. Will be created if it doesn't exist.
-    - **Root Azure DNS resource group (default: <random>-rg):**  Existing Root Azure DNS zone resource group. If the Root Azure DNS zone doesn't exist, it will be created in the main resource group.
+    - **Resource group (default: \<random\>-rg):**  Resource group name to host the resources
+    - **Root Azure DNS name (default: \<random\>.contoso.com):** Root Azure DNS zone. Will be created if it doesn't exist.
+    - **Root Azure DNS resource group (default: \<random\>-rg):**  Existing Root Azure DNS zone resource group. If the Root Azure DNS zone doesn't exist, it will be created in the main resource group.
     - **Application subdomain name (default namesapp):** Subdomain for this application.
+
+This will take **about 10 minutes to complete** and will provision an Azure Kubernetes Service (AKS) cluster with the recommended add-ons enabled, an Azure Container Registry, an Azure Key Vault with a self-signed certificate, an Azure DNS Zone. The script will also download the cluster's credentials into the cloud shell.
 
 ## Configure DNS
 
